@@ -29,10 +29,31 @@ class Chat extends Component {
   }
 
   handleSendMessage = (chatInput) => {
-    this.setState({messages: [
-        ...this.state.messages,
-        {role: ROLE.CUSTOMER, text: chatInput}
-      ]});
+    const customerMessage = {role: ROLE.CUSTOMER, text: chatInput};
+
+    if (this.checkInputIfCanBeAutoReplied(chatInput)) {
+      const answerToReply = this.getAnswerToReply(chatInput);
+      const messages = this.state.messages.concat([customerMessage, answerToReply]);
+      this.setState({
+        shop: shopData,
+        messages
+      })
+    } else {
+      const messages = this.state.messages.concat(customerMessage);
+      this.setState({
+        shop: shopData,
+        messages
+      })
+    }
+  }
+
+  getAnswerToReply = (chatInput) => {
+    const answerToReply = answersData.find((answer) => answer.tags.includes(chatInput));
+    return answerToReply;
+  }
+
+  checkInputIfCanBeAutoReplied = (chatInput) => {
+    return answersData.some((answer) => answer.tags.includes(chatInput));
   }
 
   render() {
