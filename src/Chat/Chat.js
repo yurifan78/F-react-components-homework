@@ -48,8 +48,7 @@ class Chat extends Component {
   }
 
   getAnswerToReply = (chatInput) => {
-    const answerToReply = answersData.find((answer) => answer.tags.includes(chatInput));
-    return answerToReply;
+    return answersData.find((answer) => answer.tags.includes(chatInput));
   }
 
   checkInputIfCanBeAutoReplied = (chatInput) => {
